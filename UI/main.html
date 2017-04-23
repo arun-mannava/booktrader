@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>TEXTBOOKS.COM</title>
+<script src="javascript/effect.js"></script>
+ <link rel="stylesheet" type="text/css" href="css/style.css">
+ 
+	<title>Footer With Address And Phones</title>
+
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	
+
+	<script>
+	$(document).ready(function() {
+		var frm1 = $('#searchForm');
+	
+		frm1.submit(function(ev) {
+			$.ajax({
+				type: frm1.attr('method'),
+				url: 'http://localhost:8080/search/getBookBybookName',
+				crossDomain: true,
+				data: $('#searchForm').serialize(),
+				success: function(data){ 
+					if(data){ 	
+						var len = data.length;
+						var txt = "";
+						if(len > 0){
+							for(var i=0;i<len;i++){
+
+								txt += "<tr><td>" + "<img src=\"images/isbn_images/"+ data[i].iSBN + ".gif\"/></td><td>" + 
+										"<a href=\"desc.html\">"+data[i].book_NAME+"</a><br/>"+'by'+" "+data[i].author+"<br/>"+data[i].iSBN+"<br/><br/>"
+										+"<table><tr><td>"
+										+"USED&nbsp;$"+data[i].used_PRICE+"</td><td>ETEXTBOOK&nbsp;$"
+										+data[i].e_TEXTBOOK_PRICE+"</td></tr><tr><td>NEW &nbsp;$"
+										+data[i].new_PRICE+"&nbsp;</td><td>RENT&nbsp;$"
+										+data[i].rent_PRICE+"</td></tr></table><td></td>"
+										+"<td></td>"
+										+"<td>"
+										+"<div class=\"select\">"
+										+"<span class=\"arr\"></span>"
+										+"<select id=\""+data[i].iSBN+"-options\">"
+										+"<option value=\"NEW_PRICE\">NEW</option>"
+										+"<option value=\"RENT_PRICE\">RENT</option>"
+										+"<option value=\"USED_PRICE\">USED</option>"
+										+"<option value=\"E_TEXTBOOK_PRICE\">ETEXTBOOK</option>"
+										+"</select></div>"
+										+"<br/><br/>"
+										+"<center>"
+										+"<button class=\"button button4\" id=ADD-"+data[i].iSBN+" type=\"button\" onclick=\"addToCart('"+data[i].iSBN+"')\">ADD</button>"
+										+"</center></td></tr>"
+										+"</div></center>"
+			
+			
+							}
+							if(txt != ""){
+								$("#table").append(txt).removeClass("hidden");
+								$("#main").addClass("hidden");
+							}
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + textStatus + ': ' + errorThrown);
+				}
+		});
+		ev.preventDefault();
+	});
+})
+
+var cartList= [];
+var cartMap = new Object();
+function addToCart(iSBN) {
+	var length = cartList.length;
+	if (iSBN != null) {
+		var selectOption = document.getElementById(iSBN+"-options");
+		var value = selectOption.value;
+
+		cartList[length] = iSBN+":"+value;
+		var id = document.getElementById("cartItems");
+		id.innerText = cartList.length;
+
+		var id = document.getElementById("ADD-"+iSBN);
+		id.innerText = "ADDED";
+		cookies.deleteCookie("cart");
+		
+		var quantity = cartMap[iSBN+":"+value];
+		if (quantity == null) {
+			quantity = 0;
+		}
+		cartMap[iSBN+":"+value] = quantity + 1;
+		var cartMapString = JSON.stringify(cartMap);
+		cookies.setCookie ("cart", cartMapString , 10);
+	}
+}
+
+	const cookies = (function () {
+		return {
+			setCookie: (cname, cvalue, exdays) => {
+				const d = new Date();
+				d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+				const expires = 'expires=' + d.toUTCString();
+				document.cookie = cname + '=' + cvalue + '; ' + expires;
+			},
+			getCookie: (cname) => {
+				const name = cname + '=';
+				const ca = document.cookie.split(';');
+				for (let i = 0; i < ca.length; i += 1) {
+					let c = ca[i];
+					while (c.charAt(0) === ' ') c = c.substring(1);
+					if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+				}
+				return '';
+			},
+			checkCookie: (cname) => {
+				const cookie = window.CookieObj.getCookie(cname);
+				if (cookie !== '') {
+					return true;
+				}
+				return false;
+			},
+			deleteCookie(cname) {
+					this.setCookie(cname, '', -1);
+			},
+		};
+	}());
+	window.CookieObj = cookies;
+
+</script>
+
+</head>
+
+<body>
+<header>
+<div class="logo">
+<a href="main.html">
+<img src="images/logo1.png" height="100" width="274"/>
+</a>
+</div>
+
+<center>
+<form class="form-wrapper" id="searchForm" method="POST">
+    <input type="text" id="searchTerm" align="center" placeholder="Search for..." name="searchTerm">
+    <input type="submit" value="go" id="search">
+</form>
+</center>
+
+<div class="loginlogo">
+<nav>
+	<a href="cartU.html">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ <a href="loginr.html">
+<img src="images/logo2.png"/>
+</a>
+<span> Items in cart : <span id="cartItems"> </span></span>
+</nav>
+</div>
+
+<center>
+<div class="menu">
+   <ul class="menu-list">
+       
+	   <li><a href="aboutus.html" class="hyper-link">ABOUT US
+	       <span class="box-animation">
+           <span class="front">ABOUT US</span>
+           <span class="back">ABOUT US</span>
+            </span>
+	   </a></li>
+	   <li><a href="main.html" class="hyper-link">BUY BOOKS
+	       <span class="box-animation">
+           <span class="front">BUY BOOKS</span>
+           <span class="back">BUY BOOKS</span>
+            </span>
+	   </a></li><li><a href="sellbook.html" class="hyper-link">SELL BOOKS
+	       <span class="box-animation">
+           <span class="front">SELL BOOKS</span>
+           <span class="back">SELL BOOKS</span>
+            </span>
+	   </a></li>
+	   <li><a href="blog.html" class="hyper-link">BLOG
+	       <span class="box-animation">
+           <span class="front">BLOG</span>
+           <span class="back">BLOG</span>
+            </span>
+	   </a></li>
+		</ul>
+</div>
+</center>
+
+</header>
+
+<img src="images/bar.png" width="1200px" height="70px"/>
+
+<center>
+
+<table id="table" class="hidden">	
+</table>
+
+</center>
+	
+<main id='main'>
+<div class="slider" id="main-slider"><!-- outermost container element -->
+	<div class="slider-wrapper"><!-- innermost wrapper element -->
+		<img src="images/s1.jpg" alt="First" class="slide" /><!-- slides -->
+		<img src="images/s2.jpg" alt="Second" class="slide" />
+		<img src="images/s3.jpg" alt="Third" class="slide" />
+	</div>
+</div>
+
+
+<p>We've got textbooks of all types, for students of all type </p>
+<img src="images/bar.png" width="1100px" height="70px"/>
+<center>
+<div class="grid">
+<ul class="rig">
+	<li>
+		<img src="https://images-na.ssl-images-amazon.com/images/I/41PjD3ClAWL._SX331_BO1,204,203,200_.jpg" height="280px" width="200px" />
+		<h3>Distributed Database</h3>
+	</li>
+	<li>
+		<img src="https://images.tandf.co.uk/common/jackets/amazon/978149870/9781498705271.jpg" height="280px" width="200px"/>
+		<h3>Software Engineering</h3>
+	</li>
+	<li>
+		<img src="https://static-content.springer.com/cover/book/978-1-4615-6698-4.jpg" height="280px" width="200px" />
+		<h3>Network Protocols</h3>
+	</li>
+	<li>
+		<img src="https://images-na.ssl-images-amazon.com/images/I/51i3U4%2BZm4L._SX322_BO1,204,203,200_.jpg" height="280px" width="200px"/>
+		<h3>Research Methods</h3>
+	</li>
+</ul>
+</div>
+</center>
+
+</main>
+
+		<footer class="block">
+
+<div class="footer-social-icons">
+
+    <ul class="social-icons">
+        <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
+    </ul>
+</div>
+<div class="container">
+    <nav class="blist">
+  <a href="main.html">Home</a>
+  <a href="aboutus.html">About Us </a>
+  <a href="buybook.html">Buy books</a>
+  <a href="sellbook.html">Sell Books</a>
+  <a href="blog.html">Blog</a>
+</nav>
+<br>
+<br>
+<p>© 2006 - 2017 Textbooks.com All rights reserved</p>
+<p>Terms of Service  &nbsp Privacy Policy</p>
+</div>
+		
+</footer>		
+
+
+<script>
+
+(function() {
+	
+	function Slideshow( element ) {
+		this.el = document.querySelector( element );
+		this.init();
+	}
+	
+	Slideshow.prototype = {
+		init: function() {
+			this.wrapper = this.el.querySelector( ".slider-wrapper" );
+			this.slides = this.el.querySelectorAll( ".slide" );
+			this.previous = this.el.querySelector( ".slider-previous" );
+			this.next = this.el.querySelector( ".slider-next" );
+			this.index = 0;
+			this.total = this.slides.length;
+			this.timer = null;
+			
+			this.action();
+			this.stopStart();	
+		},
+		_slideTo: function( slide ) {
+			var currentSlide = this.slides[slide];
+			currentSlide.style.opacity = 1;
+			
+			for( var i = 0; i < this.slides.length; i++ ) {
+				var slide = this.slides[i];
+				if( slide !== currentSlide ) {
+					slide.style.opacity = 0;
+				}
+			}
+		},
+		action: function() {
+			var self = this;
+			self.timer = setInterval(function() {
+				self.index++;
+				if( self.index == self.slides.length ) {
+					self.index = 0;
+				}
+				self._slideTo( self.index );
+				
+			}, 3000);
+		},
+		stopStart: function() {
+			var self = this;
+			self.el.addEventListener( "mouseover", function() {
+				clearInterval( self.timer );
+				self.timer = null;
+				
+			}, false);
+			self.el.addEventListener( "mouseout", function() {
+				self.action();
+				
+			}, false);
+		}
+		
+		
+	};
+	
+	document.addEventListener( "DOMContentLoaded", function() {
+		
+		var slider = new Slideshow( "#main-slider" );
+		
+	});
+	
+	
+})();
+
+</script>
+
+
+
+</body>
+
+</html>

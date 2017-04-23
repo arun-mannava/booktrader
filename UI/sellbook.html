@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>TEXTBOOKS.COM</title>
+
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+ <link rel="stylesheet" type="text/css" href="css/bstyle.css">
+ 
+ 
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+ 
+<style>
+
+  #table{
+    width:800px;
+  }
+div.background {
+  background: url("images/SLIDE.JPG") ;
+  border: 2px solid black;
+  height: 400px;
+  width:790px;
+  float: center;
+  
+}
+
+
+
+div.transbox p {
+  margin: 5%;
+  font-weight: bold;
+  color: #fff;
+  height: 0px;
+}
+
+#searchTer {
+			width: 0;
+			transition: width 1s ease-in;
+			margin-top: 50px;
+			margin-left: -200px;
+
+		}
+
+#searchTer.active {
+			width: 195px;
+		}
+
+		
+.feature_home {
+    width: 200px;
+    background: #000;
+    float: left;
+    padding: 15px;
+     height: 60px;
+    color: #fff;
+    text-decoration: none;
+    clear: both;
+}
+
+div {
+    display: block;
+}
+
+
+        
+p {
+  text-align:center;
+  font-size: bold;
+  font-size: 16px;
+}
+ 
+ 
+
+.sbutton {
+    opacity: 2;
+    filter: alpha(opacity=60);
+    padding-left: -100px;
+}
+.hidden {
+	display:none;
+}
+
+.feature_home {
+    width: 200px;
+    background: #000;
+    float: left;
+    padding: 15px;
+     height: 60px;
+    color: #fff;
+    text-decoration: none;
+    clear: both;
+}
+
+div.transbox p {
+    margin: 5%;
+    font-weight: bold;
+    color: #fff;
+    height: 0px;
+} 
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+  
+</style>
+
+<script>
+
+ 
+	$(document).ready(function() {
+		var frm1 = $('#sellBook');
+	
+		frm1.submit(function(ev) {
+			$.ajax({
+				type: frm1.attr('method'),
+				url: 'http://localhost:8080/search/getBookBybookName',
+				crossDomain: true,
+				data: $('#sellBook').serialize(),
+				success: function(data){ 
+					if(data){ 	
+						var len = data.length;
+						var txt = "";
+						if(len > 0){
+							for(var i=0;i<len;i++){
+
+								txt +=  "<tr><td>"
+                        +"<h3 align=\"left\">Review Your Search Results</h3>"
+                        +"<p align=\"justify\">Thanks for choosing Textbooks.com! Here are the books you entered. If you bought them from us, <a href=\"loginr.html\">sign in</a> to receive your Guaranteed Cash Back. Now let's review and finalize your buyback quote.</p>"
+                        +"<form method=\"POST\" action=\"/\" style=\"margin:0;padding:0;\" autocomplete=\"off\">"
+                        +"<table>"
+                        +"<tr style=\" width: 620px;padding: 10px;border: 5px solid gray;margin: 0;\">"
+                        +"<td><img src=\"images/isbn_images/"+ data[i].iSBN + ".gif\"/></td>"
+                        +"<td><a href=\"#\">"+data[i].book_NAME+"</a><br/>"
+                        +'by'+" "+data[i].author+"<br/>"
+                        +"ISBN13:"+data[i].iSBN+"<br/><br/>"
+                        +"</td></tr>"
+                        +"<tr><td><p>Quote:$"+data[i].rent_PRICE+"</p></td></tr>"
+                        +"</table><br/>"
+                        +"<center><button type=\"submit\"><img align=\"right\" src=\"images/isbn_images/sell_book.png\"/></center>"
+                        +"</form></div></td>"
+                        +"</td>"
+                        +"<td></td><td></td>"
+                        +"<td>"
+                        +"<div style=\"width:300px; float:right;\">"
+                        +"<div style=\"display:table-cell;padding:0 0 12px 0;\">"
+                        +"<img src=\"images/isbn_images/cash_icon.png\" width=\"36\" height=\"36\" alt=\"Add more books to your quote\">"
+                        +"</div>"
+                        +"<div style=\"display:table-cell; vertical-align:middle;horizontal-align:left;padding:0 0 12px 10px;\">"
+                        +"<b>Add more books to your quote</b></div>"
+                        +"<div class=\"sbutton\">"
+                        +"<p><textarea input=\"textarea\" value=\"search\" placeholder=\"Enter more ISBNs here\" cols=\"25\" rows=\"10\" style=\"margin:0 0 0 5px; padding: 8px 0 0 10px;resize:none;vertical-align:top;\"></textarea></p><br/>"
+                        +"<center><img align=\"middle\" src=\"images/isbn_images/search.png\"/> </center><br/><br/>&nbsp;<br/>"
+                        +"<center><img align=\"middle\" src=\"images/isbn_images/free_shipping.png\"/></center>"
+                        +"</div>"
+                        +"</td></tr>"
+
+							}
+							if(txt != ""){
+								$("#table").append(txt).removeClass("hidden");
+								$("#main").addClass("hidden");
+							}
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + textStatus + ': ' + errorThrown);
+				}
+		});
+		ev.preventDefault();
+	});
+})
+
+
+
+</script>
+
+
+</head>
+
+<body>
+<header>
+<div class="logo">
+<a href="main.html">
+<img src="images/logo1.png" height="100" width="274"/>
+</a>
+</div>
+
+<form class="form-wrapper" id="searchForm" method="POST">
+    <input type="text" id="searchTerm" align="center" placeholder="Search for..." name="searchTerm">
+    <input type="submit" value="go" id="search">
+</form>
+
+<div class="loginlogo">
+ <nav>
+	<a href="cartU.html">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ <a href="loginr.html">
+<img src="images/logo2.png"/>
+</a>
+<span> Items in cart : <span id="cartItems"> </span></span>
+</nav>
+</div>
+
+<center> 
+<div class="menu">
+   <ul class="menu-list">
+       
+	   <li><a href="aboutus.html" class="hyper-link">ABOUT US
+	       <span class="box-animation">
+           <span class="front">ABOUT US</span>
+           <span class="back">ABOUT US</span>
+            </span>
+	   </a></li>
+	   <li><a href="main.html" class="hyper-link">BUY BOOKS
+	       <span class="box-animation">
+           <span class="front">BUY BOOKS</span>
+           <span class="back">BUY BOOKS</span>
+            </span>
+	   </a></li><li><a href="sellbook.html" class="hyper-link">SELL BOOKS
+	       <span class="box-animation">
+           <span class="front">SELL BOOKS</span>
+           <span class="back">SELL BOOKS</span>
+            </span>
+	   </a></li>
+     <li><a href="blog.html" class="hyper-link">BLOG
+	       <span class="box-animation">
+           <span class="front">BLOG</span>
+           <span class="back">BLOG</span>
+            </span>
+	   </a></li>
+		</ul>
+</div>
+</center>
+</header>
+
+<center>
+
+<table style="width:800px;" id="table" class="hidden">	
+</table>
+
+</center>
+
+<div id="main">
+<main>
+
+<center>
+<div class="background">
+  <div class="transbox">
+  
+	
+  <div class="feature_home">
+  
+  <p class="feature_button" href="#">START YOUR QUOTE</p>
+  <br>
+</div>
+</div>
+
+<div class="sbutton">
+<form  id="sellBook" method="POST">
+  	<input type="text" id="searchTer" value="Enter your ISBN" id="input-txt" value="Set Focus" name="searchTerm" OnClick="document.myform2.mytextfield2.focus();" class="active">
+	<input type="submit" id="input-btn" value="GO">
+
+</form>
+</div>
+
+
+</div>
+</center>
+
+
+
+<p>
+<img src="images/ship.png" height="270px" width="1000px"/>
+</p>
+
+</main>
+</div>
+
+<footer class="block">
+
+<div class="footer-social-icons">
+
+    <ul class="social-icons">
+        <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
+    </ul>
+</div>
+<div class="container">
+    <nav class="blist">
+  <a href="main.html">Home</a>
+  <a href="aboutus.html">About Us </a>
+  <a href="buybook.html">Buy books</a>
+  <a href="sellbook.html">Sell Books</a>
+  <a href="blog.html">Blog</a>
+</nav>
+<br>
+<br>
+<p>© 2006 - 2017 Textbooks.com All rights reserved</p>
+<p>Terms of Service  &nbsp Privacy Policy</p>
+</div>
+		
+</footer>		
+
+
+
+<script>
+
+(function() {
+	
+	function Slideshow( element ) {
+		this.el = document.querySelector( element );
+		this.init();
+	}
+	
+	Slideshow.prototype = {
+		init: function() {
+			this.wrapper = this.el.querySelector( ".slider-wrapper" );
+			this.slides = this.el.querySelectorAll( ".slide" );
+			this.previous = this.el.querySelector( ".slider-previous" );
+			this.next = this.el.querySelector( ".slider-next" );
+			this.index = 0;
+			this.total = this.slides.length;
+			this.timer = null;
+			
+			this.action();
+			this.stopStart();	
+		},
+		_slideTo: function( slide ) {
+			var currentSlide = this.slides[slide];
+			currentSlide.style.opacity = 1;
+			
+			for( var i = 0; i < this.slides.length; i++ ) {
+				var slide = this.slides[i];
+				if( slide !== currentSlide ) {
+					slide.style.opacity = 0;
+				}
+			}
+		},
+		action: function() {
+			var self = this;
+			self.timer = setInterval(function() {
+				self.index++;
+				if( self.index == self.slides.length ) {
+					self.index = 0;
+				}
+				self._slideTo( self.index );
+				
+			}, 3000);
+		},
+		stopStart: function() {
+			var self = this;
+			self.el.addEventListener( "mouseover", function() {
+				clearInterval( self.timer );
+				self.timer = null;
+				
+			}, false);
+			self.el.addEventListener( "mouseout", function() {
+				self.action();
+				
+			}, false);
+		}
+		
+		
+	};
+	
+	document.addEventListener( "DOMContentLoaded", function() {
+		
+		var slider = new Slideshow( "#main-slider" );
+		
+	});
+	
+	
+})();
+
+document.getElementById('input-btn').addEventListener('click', function () {
+			document.getElementById('input-txt').classList.add('active');
+		});
+
+</script>
+
+
+
+</body>
+</html>

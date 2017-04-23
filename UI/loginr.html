@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>TEXTBOOKS.COM</title>
+ <link rel="stylesheet" type="text/css" href="css/style.css">
+ 
+	<title>Footer With Address And Phones</title>
+
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="js/Util.js"></script>
+	
+
+	<script>
+	$(document).ready(function() {
+
+		var frm1 = $('#register');
+		createCookie();
+		var cookie = window.CookieObj;
+
+	
+		frm1.submit(function(ev) {
+			$.ajax({
+				type: frm1.attr('method'),
+				url: 'http://localhost:8080/demo/add',
+				crossDomain: true,
+				data: $('#register').serialize(),
+				success: function(data){ 
+					cookie.setCookie("UserInfo",$('#register').serialize(),10);
+					showUserName()
+					if(data == "Saved"){ 	
+						var len = data.length;
+						var txt = "";
+						if(len > 0){
+							
+
+								txt += "<tr><td>" + "<h3>"+'Congratulations'+"</h3><h4>"+'Your account has been successfully created.'+"</h4>"
+										+"<p>"+'You will be redirected to used4sale in 2 seconds.'
+										+"<a href=\"loginr.html\">Click here</a> &nbsp;to get started now.</p></td></tr>"
+							if(txt != ""){
+								$("#table").append(txt).removeClass("hidden");
+								$("#main").addClass("hidden");
+							}
+
+							else{
+
+								txt += "<tr><td>" + "<h3><font color=red>"+'Please fill all the fields'+"</font>></h3></td></tr>"
+							}
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + textStatus + ': ' + errorThrown);
+				}
+		});
+		ev.preventDefault();
+	});
+})
+
+</script>
+
+<style>
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+</style>
+
+</head>
+
+<body>
+<header>
+<div class="logo">
+
+	
+	<img src="images/logo1.png" height="100" width="274"/>
+</div>
+
+<form class="form-wrapper" id="searchForm" method="POST">
+    <input type="text" id="searchTerm" align="center" placeholder="Search for..." name="searchTerm">
+    <input type="submit" value="go" id="search">
+</form>
+
+<div id="userWelcome"></div>
+<div class="loginlogo">
+<nav>
+	<a href="cartU.html">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ <a href="loginr.html">
+<img src="images/logo2.png"/>
+</a>
+<span> Items in cart : <span id="cartItems"> </span></span>
+</nav>
+</div>
+
+<center>
+<div class="menu">
+   <ul class="menu-list">
+       
+	   <li><a href="aboutus.html" class="hyper-link">ABOUT US
+	       <span class="box-animation">
+           <span class="front">ABOUT US</span>
+           <span class="back">ABOUT US</span>
+            </span>
+	   </a></li>
+	   <li><a href="main.html" class="hyper-link">BUY BOOKS
+	       <span class="box-animation">
+           <span class="front">BUY BOOKS</span>
+           <span class="back">BUY BOOKS</span>
+            </span>
+	   </a></li><li><a href="sellbook.html" class="hyper-link">SELL BOOKS
+	       <span class="box-animation">
+           <span class="front">SELL BOOKS</span>
+           <span class="back">SELL BOOKS</span>
+            </span>
+	   </a></li>
+	   <li><a href="blog.html" class="hyper-link">BLOG
+	       <span class="box-animation">
+           <span class="front">BLOG</span>
+           <span class="back">BLOG</span>
+            </span>
+	   </a></li>
+		</ul>
+</div>
+</center>
+</header>
+
+<img src="images/bar.png" width="1200px" height="70px"/>
+
+<center>
+
+		<table id="table" class="hidden">
+		</table>
+
+	</center>
+
+<main id="main">
+<center>
+<table>
+<tr>
+<td> 
+<div style= "font-family: Arial; font-size:20px;"> 
+<h2><b>Log In to Your Account</b></h2></div>
+<div style= "font-family: Arial; font-size:20px;"> 
+Email </div>
+<br>
+<input type="text" id="t1" maxlength="50" style="width: 300px; height:30px"/>
+<br>
+<br>
+<div style= "font-family: Arial; font-size:20px;"> 
+Password </div>
+<br>
+<input type="password" id="p1" maxlength="10" style="width: 300px; height:30px"/>
+<br>
+<br>
+<div style="display:inline-block; text-align: left; width: 63%;">
+<input type="image" src="images/login.png" alt="Login" class="none"/></div>
+
+<div style="display:inline-block; width: 35%; ">
+<a href=""> I forgot my password</a></div>
+
+</td>
+<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+<td>
+<div style= "font-family: Arial; font-size:20px;"> 
+<h2><b>Create an Account</b></h2> </div>
+
+<form class="register" id="register" method="GET" action="http://localhost:8080/demo/add">
+
+<div style= "font-family: Arial; font-size:20px;">
+Username </div>
+<br>
+<input type="text" id="name1" name="name1" maxlength="50" style="width: 300px; height:30px"/> 
+<br>
+<br>
+<div style= "font-family: Arial; font-size:20px;">
+Enter your Email </div>
+<br>
+<input type="text" id="email" name="email" maxlength="50" style="width: 300px; height:30px"/> 
+<br>
+<br>
+<div style= "font-family: Arial; font-size:20px;"> 
+Create a Password </div>
+<br>
+<input type="password" id="pwd1" name="pwd1" maxlength="10" style="width: 300px; height:30px "/>
+<div style= "font-family: Arial; font-size:20px;"> 
+<br>
+Confirm Password </div>
+<input type="password" id="pwd2" name="pwd2" maxlength="10" style="width: 300px; height:30px "/>
+
+<br>
+
+
+<div class="chkoutCheckbox reg12px" style="padding:25px 0 ;">
+<input type="checkbox" id="c1" checked='checked'/> 
+&nbsp
+<b>Yes, send me emails on special offers, <br>buyback reminders, newsletters & more </b> </div>
+
+<input type="image" src="images/account.png" width="241" height="49" alt="Create an account" class="none"/></div>
+
+<input type="submit" value="submit" id="submit">
+
+</form>
+
+</td>
+</tr>
+</table>
+</center>
+<br/>
+</main>
+
+
+
+<footer class="block">
+
+<div class="footer-social-icons">
+
+    <ul class="social-icons">
+        <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
+    </ul>
+</div>
+<div class="container">
+    <nav class="blist">
+  <a href="main.html">Home</a>
+  <a href="aboutus.html">About Us </a>
+  <a href="buybook.html">Buy books</a>
+  <a href="sellbook.html">Sell Books</a>
+  <a href="blog.html">Blog</a>
+</nav>
+<br>
+<br>
+<p>© 2006 - 2017 Textbooks.com All rights reserved</p>
+<p>Terms of Service  &nbsp Privacy Policy</p>
+</div>
+		
+</footer>	
+</body>
+
+</html>

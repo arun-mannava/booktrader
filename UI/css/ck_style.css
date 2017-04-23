@@ -1,0 +1,122 @@
+body {
+    font-family: Raleway,"Gill Sans",Helvetica,Arial,sans-serif;
+    font-size: 1.5em;
+    line-height: 1.42857143;
+    color: #1e242b;
+    min-width: 320px!important;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+html {
+    font-size: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+element.style {
+						text-align: left;
+					}
+	
+			.chkoutMain {
+							padding: 0 1.25em 1em;
+						}
+						
+						.chkoutMain, .mainWrapper, .wrapper {
+							background-color: #fff;
+						}
+						
+						
+							
+							div {
+									display: block;
+								}
+								
+								.hid {
+											display: none;
+										}
+										
+							.chkoutMainInner {
+													padding: 8px 0 0;
+												}
+												
+							.chkoutMainInner {
+													max-width: 980px;
+													text-align: left;
+													margin: 0 auto;
+												}
+												
+							.chkoutHL1a {
+											width: 48%;
+											min-width: 365px;
+											display: inline-block;
+											vertical-align: middle;
+											height: 56px;
+										}
+										
+										.chkoutHL1b {
+													text-align: right;
+													vertical-align: middle;
+												}
+												
+												.chkoutBB1b, .chkoutHL1b {
+																		width: 50%;
+																		display: inline-block;
+																	}
+																	
+												.chkoutHL2 {
+																width: 288px;
+																text-align: right;
+															}
+																	
+												.chkoutHL2, .chkoutHL3 {
+																display: table-cell;
+																vertical-align: middle;
+															}
+															
+												.chkoutHL1b {
+															text-align: right;
+															vertical-align: middle;
+														}
+														
+														
+												.chkoutForm2colL {
+																	display: inline-block;
+																	width: 48%;
+																	padding: 18px 20px 0 0;
+																	vertical-align: top;
+																}
+																
+												.bold {
+															font-weight: 700;
+														}
+														
+.chkoutForm input, .chkoutFormBilling input {
+    border: 1px solid #656d78;
+    width: 98%;
+    height: 40px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+.chkoutForm2colR {
+    display: inline-block;
+    width: 48%;
+    padding: 18px 0 0;
+    vertical-align: top;
+}
+														
+														

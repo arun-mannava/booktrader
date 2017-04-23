@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>TEXTBOOKS.COM</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+
+    <title>Footer With Address And Phones</title>
+
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+
+    <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<header>
+    <div>
+        <img src="images/LOGO.png"/>
+    </div>
+
+    <form  action="/localhost:8080/search/getBooks" method="post">
+        <input type="text" id="search" align="center" placeholder="Search for..." th:required="required"></input>
+        <input type="submit" value="go" id="submit"></input>
+    </form>
+
+
+    <div>
+        <a href="login.html">
+            <img src="images/logo2.png"/>
+        </a>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="main.html" data-title="HOME">HOME</a></li>
+            <li><a href="about.html" data-title="ABOUT US">ABOUT US</a></li>
+            <li><a href="#" data-title="BUY BOOKS">BUY BOOKS</a></li>
+            <li><a href="#" data-title="SELL BOOKS">SELL BOOKS</a></li>
+            <li><a href="#" data-title="LOGIN">LOGIN</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+
+
+</body>
+
+</html>

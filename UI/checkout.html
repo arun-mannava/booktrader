@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>TEXTBOOKS.COM</title>
+ <link rel="stylesheet" type="text/css" href="css/style.css">
+ <link rel="stylesheet" type="text/css" href="css/ck_style.css">
+		
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	
+	
+
+	<script>
+	$(document).ready(function() {
+		var frm1 = $('#searchForm');
+	
+		frm1.submit(function(ev) {
+			$.ajax({
+				type: frm1.attr('method'),
+				url: 'http://localhost:8080/search/getBookBybookName',
+				crossDomain: true,
+				data: $('#searchForm').serialize(),
+				success: function(data){ 
+					if(data){ 	
+						var len = data.length;
+						var txt = "";
+						if(len > 0){
+							for(var i=0;i<len;i++){
+
+								txt += "<tr><td>" + "<img src=\"images/isbn_images/"+ data[i].iSBN + ".gif\"/></td><td>" + "<a href=\"desc.html\">"+data[i].book_NAME+"</a><br/>"+'by'+" "+data[i].author+"<br/>"+data[i].iSBN+"<br/>"+"NEW PRICE"+" "+data[i].new_PRICE+" "+"<button id=\"ADD-"+data[i].iSBN+"\" class=\"button button4\" onclick=\"addToCart('"+data[i].iSBN+"')\">"+"ADD"+"</button>"+"<br/>"+data[i].rent_PRICE+"</td><td>"+"<button id=\"rp_button\" class=\"button button4\">"+"From $" + data[i].rent_PRICE+" "+"Details"+"</button>"+"</td></tr>";
+							}
+							if(txt != ""){
+								$("#table").append(txt).removeClass("hidden");
+								$("#main").addClass("hidden");
+							}
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + textStatus + ': ' + errorThrown);
+				}
+		});
+		ev.preventDefault();
+	});
+})
+
+var cartList= [];
+var cartMap = new Object();
+function addToCart(iSBN) {
+	var length = cartList.length;
+	if (iSBN != null) {
+		cartList[length] = iSBN;
+		var id = document.getElementById("cartItems");
+		id.innerText = cartList.length;
+
+		var id = document.getElementById("ADD-"+iSBN);
+		id.innerText = "ADDED";
+		cookies.deleteCookie("cart");
+		
+		var quantity = cartMap[iSBN];
+		if (quantity == null) {
+			quantity = 0;
+		}
+		cartMap[iSBN] = quantity + 1;
+		var cartMapString = JSON.stringify(cartMap);
+		cookies.setCookie ("cart", cartMapString , 10);
+	}
+}
+
+	const cookies = (function () {
+		return {
+			setCookie: (cname, cvalue, exdays) => {
+				const d = new Date();
+				d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+				const expires = 'expires=' + d.toUTCString();
+				document.cookie = cname + '=' + cvalue + '; ' + expires;
+			},
+			getCookie: (cname) => {
+				const name = cname + '=';
+				const ca = document.cookie.split(';');
+				for (let i = 0; i < ca.length; i += 1) {
+					let c = ca[i];
+					while (c.charAt(0) === ' ') c = c.substring(1);
+					if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+				}
+				return '';
+			},
+			checkCookie: (cname) => {
+				const cookie = window.CookieObj.getCookie(cname);
+				if (cookie !== '') {
+					return true;
+				}
+				return false;
+			},
+			deleteCookie(cname) {
+					this.setCookie(cname, '', -1);
+			},
+		};
+	}());
+	window.CookieObj = cookies;
+
+</script>
+
+</head>
+
+<body>
+<header>
+<div class="logo">
+
+	
+	<img src="images/logo1.png" height="100" width="274"/>
+</div>
+
+<div class="loginlogo">
+<nav>
+	<a href="cartU.html">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ <a href="login.html">
+<img src="images/logo2.png"/>
+</a>
+<span> Items in cart : <span id="cartItems"> </span></span>
+</nav>
+</div>
+
+<center>
+<div class="menu">
+   <ul class="menu-list">
+       
+	   <li><a href="aboutus.html" class="hyper-link">ABOUT US
+	       <span class="box-animation">
+           <span class="front">ABOUT US</span>
+           <span class="back">ABOUT US</span>
+            </span>
+	   </a></li>
+	   <li><a href="main.html" class="hyper-link">BUY BOOKS
+	       <span class="box-animation">
+           <span class="front">BUY BOOKS</span>
+           <span class="back">BUY BOOKS</span>
+            </span>
+	   </a></li><li><a href="sellbook.html" class="hyper-link">SELL BOOKS
+	       <span class="box-animation">
+           <span class="front">SELL BOOKS</span>
+           <span class="back">SELL BOOKS</span>
+            </span>
+	   </a></li>
+	   <li><a href="blog.html" class="hyper-link">BLOG
+	       <span class="box-animation">
+           <span class="front">BLOG</span>
+           <span class="back">BLOG</span>
+            </span>
+	   </a></li>
+		</ul>
+</div>
+</center>
+</header>
+
+
+	
+	
+	<div class="chkoutMainWrapper" >
+		
+		<div class="hid" id="sLoggedInDiv" style="margin-top:-16px;"></div>
+		<div class ="chkoutMainInner">
+		<div style="test-align:left;">
+			<div class="chkoutHL1a">
+				<h2 style="font-size:28px;margin:10px 0 0 0;">Shipping & Billing</h2>
+			</div>
+			<div class="chkoutHL1b" id="coReturnTxt">
+				<div class="chkoutHL2" style="padding:0 12px 0 0;">
+					<a href="loginr.html">
+						<img src="images/isbn_images/ret_cust.png" width="288" height="49" border="0" alt="Return Customers Sign In">
+					</a>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="chkoutForm2colL" style="padding:0;">
+		
+			<h3 style="font-size:24px">Enter your shipping details</h3>
+			
+			<div>
+				<div class="bold chkoutForm2colL">
+					<p>First Name</p>
+						<input type ="text" value maxlength="11" name="SHIPPINGFIRSTNAME">
+				</div>
+				
+				<div class="bold chkoutForm2colR">
+					<p>Last Name</p>
+						<input type ="text" value maxlength="18" name="SHIPPINGLASTNAME">
+				</div>
+			</div>
+			
+			<div>
+		
+		
+		
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+</body>
+
+</html>

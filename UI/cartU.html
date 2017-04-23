@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>CART</title>
+ <link rel="stylesheet" type="text/css" href="css/style.css">
+ 
+	<title>Footer With Address And Phones</title>
+
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="js/Util.js"></script>
+	
+
+	<script>
+	function getCartDetails() {
+		createCookie();
+		showUserName();
+		var cookies = window.CookieObj;
+		
+		var cartValue = cookies.getCookie("cart");
+		cartValue = cartValue.substring(1,cartValue.length -1);
+		var booksInCart = cartValue.split(",");
+		var element = "";
+		var cartTable = document.getElementById('cartTable').getElementsByTagName('tbody')[0];
+
+		for (i = 0; i < booksInCart.length; i++) {
+			var item = booksInCart[i];
+			var bookStatus = item.split(":");
+			var bookName = bookStatus[0];
+			bookName = bookName.replace(/ /g,'');
+			bookName = bookName.replace(/\"/g,'');
+
+			$.ajax({
+				type: 'GET',
+				url:  'http://localhost:8080/search/getBookByISBN',
+				crossDomain: true,
+				customParameter: bookStatus,
+				data: 'searchTerm='+bookName,
+				success: function(data, bookStatus){
+					var jsonData = data[0];
+					if (jsonData != null) {	
+
+						var bookType = this.customParameter[1];
+						bookType = bookType.replace(/ /g,'');
+						bookType = bookType.replace(/\"/g,'');
+
+						var value = 0;
+						if (bookType == 'NEW_PRICE') 					
+							value = value + jsonData.new_PRICE;
+						else if (bookType == 'USED_PRICE')
+							value = value + jsonData.used_PRICE;
+						else if (bookType == 'RENT_PRICE')
+							value = value + jsonData.rent_PRICE;
+						else
+							value = value + jsonData.e_TEXTBOOK_PRICE;
+
+						var strVar="";
+						strVar += "<form target=\"paypal\" action=\"https:\/\/www.paypal.com\/cgi-bin\/webscr\" method=\"post\">";
+						strVar += "";
+						strVar += "  <!-- Identify your business so that you can collect the payments. -->";
+						strVar += "  <input type=\"hidden\" name=\"business\" value=\"kin@kinskards.com\">";
+						strVar += "";
+						strVar += "  <!-- Specify a PayPal Shopping Cart Add to Cart button. -->";
+						strVar += "  <input type=\"hidden\" name=\"cmd\" value=\"_cart\">";
+						strVar += "  <input type=\"hidden\" name=\"add\" value=\"1\">";
+						strVar += "";
+						strVar += "  <!-- Specify details about the item that buyers will purchase. -->";
+						strVar += "  <input type=\"hidden\" name=\"item_name\" value=\""+jsonData.book_NAME+"-"+bookType+"\">";
+						strVar += "  <input type=\"hidden\" name=\"amount\" value=\""+value+"\">";
+						strVar += "  <input type=\"hidden\" name=\"currency_code\" value=\"USD\">";
+						strVar += "";
+						strVar += "  <!-- Display the payment button. -->";
+						strVar += "  <input type=\"image\" name=\"submit\"";
+						strVar += "    src=\"https:\/\/www.paypalobjects.com\/webstatic\/en_US\/i\/btn\/png\/btn_addtocart_120x26.png\"";
+						strVar += "    alt=\"Add To Cart\">";
+						strVar += "  <img alt=\"\" width=\"1\" height=\"1\"";
+						strVar += "    src=\"https:\/\/www.paypalobjects.com\/en_US\/i\/scr\/pixel.gif\">";
+						strVar += "";
+						strVar += "<\/form>";
+
+						var tempElement = 
+						"<tr>" + 
+							"<td><img src=\"images/isbn_images/"+ jsonData.iSBN + ".gif\"/><br/>"+
+							"<a>"+ jsonData.book_NAME + "<br/> Author: " + jsonData.author + "<br/>"+
+							"ISBN13:"+ jsonData.iSBN +"<br/>"+
+							"Book Type: "+bookType+"<br/></td>"+
+							"<td>Textbooks.com </td>"+
+							"<td id=\""+jsonData.iSBN+"-"+bookType+"-price\">"+value+"</td>"+
+							"<td id=\""+jsonData.iSBN+"-"+bookType+"-price\">"+value+"</td>"+
+							"<td id=\""+jsonData.iSBN+"-cart\">"+strVar+"</td>"+
+							"</tr>"
+						//element = element + tempElement;
+						$('.lastRow').after(tempElement);
+
+						var subTotalValue = 0;
+						var subTotal = document.getElementById("subTotal");
+						if (subTotal.innerText != null) {
+							subTotalValue = parseInt(subTotal.innerText);
+						}
+						subTotalValue = subTotalValue + value;					
+						subTotal.innerText = subTotalValue;
+
+						var tax = document.getElementById("tax");
+						var taxValue = subTotalValue*0.075;
+						taxValue = Math.round(taxValue * 100) / 100;
+						tax.innerText = taxValue;
+
+						var total = document.getElementById("total");
+						var totalValue = subTotalValue + taxValue;
+						total.innerText = 	totalValue;
+
+
+
+					}
+				}
+			})
+		};	
+	}
+</script>
+
+<style>
+
+
+	table {
+    border-collapse:separate;
+    border:solid black 1px;
+    border-radius:6px;
+    -moz-border-radius:6px;
+		}
+
+	th, td {
+    text-align: left;
+    padding: 8px;
+	}
+
+tr:nth-child(even){background-color: 	#FFFFFF}
+
+th {
+    background-color:  #22c3bb;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+</style>
+
+</head>
+
+<body onload="getCartDetails()"> 
+<header>
+<div class="logo">
+
+	
+	<img src="images/logo1.png" height="100" width="274"/>
+</div>
+
+<form class="form-wrapper" id="searchForm" method="POST">
+    <input type="text" id="searchTerm" align="center" placeholder="Search for..." name="searchTerm">
+    <input type="submit" value="go" id="search">
+</form>
+<div id="userWelcome"></div>
+<div class="loginlogo">
+<nav>
+	<!-- PayPal Logo --><a href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=860, height=500'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/bdg_now_accepting_pp_2line_w.png" border="0" alt="Now Accepting PayPal"></a>
+	<a href="cartU.html">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ 	<a href="loginr.html"> <img src="images/logo2.png"/> </a>
+</nav>
+</div>
+
+<center> 
+<div class="menu">
+   <ul class="menu-list">
+       
+	   <li><a href="aboutus.html" class="hyper-link">ABOUT US
+	       <span class="box-animation">
+           <span class="front">ABOUT US</span>
+           <span class="back">ABOUT US</span>
+            </span>
+	   </a></li>
+	   <li><a href="buybook.html" class="hyper-link">BUY BOOKS
+	       <span class="box-animation">
+           <span class="front">BUY BOOKS</span>
+           <span class="back">BUY BOOKS</span>
+            </span>
+	   </a></li><li><a href="sellbook.html" class="hyper-link">SELL BOOKS
+	       <span class="box-animation">
+           <span class="front">SELL BOOKS</span>
+           <span class="back">SELL BOOKS</span>
+            </span>
+	   </a></li>
+     <li><a href="blog.html" class="hyper-link">BLOG
+	       <span class="box-animation">
+           <span class="front">BLOG</span>
+           <span class="back">BLOG</span>
+            </span>
+	   </a></li>
+		</ul>
+</div>
+</center>
+</header>
+
+<img src="images/bar.png" width="1200px" height="70px"/>
+
+<center>
+
+<table id="cartTable" >	
+<colgroup><col width="400" /></colgroup>
+	<tr class="lastRow">
+		<th>ITEM</th>
+		<th>SELLER</th>
+		<th>EACH</th>
+		<th>PRICE</th>
+		<th>CART</th>
+	</tr>
+</table>
+
+<table align="justify">
+	<tr>
+	
+	<td>You've saved:</td>
+		<td>$33.74</td>
+	</tr>
+	<tr>
+	<td>Subtotal:</td>
+		<td id="subTotal">0</td>
+	</tr>
+	<tr>
+	<td>Estimated shipping:</td>
+	<td>Free</td>
+	</tr>
+	<tr>
+	<td>Tax:</td>
+		<td id="tax">0</td>
+	</tr>
+	<tr>
+	<td>Total:</td>
+		<td id="total">0</td>
+	</tr>
+	</table>
+
+	<br/>
+	<br/>
+
+	
+
+</center>
+	
+
+
+<footer class="block">
+
+<div class="footer-social-icons">
+
+    <ul class="social-icons">
+        <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
+    </ul>
+</div>
+<div class="container">
+    <nav class="blist">
+  <a href="main.html">Home</a>
+  <a href="aboutus.html">About Us </a>
+  <a href="buybook.html">Buy books</a>
+  <a href="sellbook.html">Sell Books</a>
+  <a href="blog.html">Blog</a>
+</nav>
+<br>
+<br>
+<p>© 2006 - 2017 Textbooks.com All rights reserved</p>
+<p>Terms of Service  &nbsp Privacy Policy</p>
+</div>
+		
+</footer>		
+
+
+<script>
+
+(function() {
+	
+	function Slideshow( element ) {
+		this.el = document.querySelector( element );
+		this.init();
+	}
+	
+	Slideshow.prototype = {
+		init: function() {
+			this.slides = this.el.querySelectorAll( ".slide" );
+			this.previous = this.el.querySelector( ".slider-previous" );
+			this.next = this.el.querySelector( ".slider-next" );
+			this.index = 0;
+			this.total = this.slides.length;
+			this.timer = null;
+			
+			this.action();
+			this.stopStart();	
+		},
+		_slideTo: function( slide ) {
+			var currentSlide = this.slides[slide];
+			currentSlide.style.opacity = 1;
+			
+			for( var i = 0; i < this.slides.length; i++ ) {
+				var slide = this.slides[i];
+				if( slide !== currentSlide ) {
+					slide.style.opacity = 0;
+				}
+			}
+		},
+		action: function() {
+			var self = this;
+			self.timer = setInterval(function() {
+				self.index++;
+				if( self.index == self.slides.length ) {
+					self.index = 0;
+				}
+				self._slideTo( self.index );
+				
+			}, 3000);
+		},
+		stopStart: function() {
+			var self = this;
+			self.el.addEventListener( "mouseover", function() {
+				clearInterval( self.timer );
+				self.timer = null;
+				
+			}, false);
+			self.el.addEventListener( "mouseout", function() {
+				self.action();
+				
+			}, false);
+		}
+		
+		
+	};
+	
+	document.addEventListener( "DOMContentLoaded", function() {
+		
+		var slider = new Slideshow( "#main-slider" );
+		
+	});
+	
+	
+})();
+
+</script>
+
+
+
+</body>
+
+</html>

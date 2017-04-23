@@ -1,0 +1,63 @@
+div.background {
+  background: url("images/SLIDE.JPG") ;
+  border: 2px solid black;
+  height: 400px;
+  width:790px;
+  float: center;
+  
+}
+
+div.transbox {
+  margin: 300px;
+  background-color: #000;
+  opacity: 2;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+div.transbox p {
+  margin: 5%;
+  font-weight: bold;
+  color: #fff;
+  height: 0px;
+}
+
+#input-txt {
+			width: 0;
+			transition: width 1s ease-in;
+			margin-top: 50px;
+			margin-left: -200px;
+
+		}
+
+#input-txt.active {
+			width: 195px;
+		}
+
+#input-btn {
+}
+
+		
+.feature_home {
+  width:200px;
+  background: #000;
+  float:left;
+  padding:15px;
+  height: 60px;
+  color: #fff;
+  text-decoration: none;
+  clear: both;
+}
+        
+p {
+  text-align:center;
+  font-size: bold;
+  font-size: 16px;
+}
+ 
+ 
+
+.button{
+opacity: 2;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+  padding-left: -100px;
+}

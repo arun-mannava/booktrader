@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>DESC</title>
+
+ <link rel="stylesheet" type="text/css" href="css/style.css">
+ 
+	<title>Footer With Address And Phones</title>
+
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	
+</head>
+
+<body>
+<header>
+<div class="logo">
+<img src="images/logo.png"/>
+</div>
+
+<form class="form-wrapper" id="searchForm" method="POST">
+    <input type="text" id="isbn" align="center" placeholder="Search for..." name="isbn">
+    <input type="submit" value="go" id="search">
+</form>
+
+<div class="loginlogo">
+<nav>
+<a href="#">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ <a href="login.html">
+<img src="images/logo2.png"/>
+</a>
+</nav>
+</div>
+
+<nav class="mainNav">
+    <ul>
+        <li><a href="main.html" data-title="HOME">HOME</a></li>
+        <li><a href="about.html" data-title="ABOUT US">ABOUT US</a></li>
+        <li><a href="#" data-title="BUY BOOKS">BUY BOOKS</a></li>
+        <li><a href="#" data-title="SELL BOOKS">SELL BOOKS</a></li>
+        <li><a href="#" data-title="LOGIN">LOGIN</a></li>
+    </ul>
+</nav>
+</header>
+
+<img src="images/bar.png" width="1200px" height="70px"/>
+
+<center>
+
+<table id="table" class="hidden">	
+</table>
+
+</center>
+<main>
+<p>Research Methods - 9th edition</p>
+<center>
+
+<table>
+	
+	<tr>ISBN13: 978-1111840624</tr>
+	<tr>by Mcburney</tr>
+	<tr>
+		<td><img src="images/isbn_images/978-1111840624.gif"/></td>
+		<td>USED<br/>
+			$108.06<br/>
+			Save $117.60 (49%)<br/>
+			FREE Shipping on $25+<br/>
+			Ships Today!<br/><hr/>
+			30-Day Returns<br/><hr/>
+			Condition: Very Good<br/>
+			<button class="button button4">ADD</button>
+		</td>
+		<td></td>
+		<td></td>
+		
+		<td>RENT_PRICE<br/>
+			$97.49<br/>
+			Save $117.60 (49%)<br/>
+			FREE Shipping on $25+<br/>
+			Ships Today!<br/><hr/>
+			30-Day Returns<br/><hr/>
+			Condition: Very Good<br/>
+			<button class="button button4">ADD</button>
+		</td>
+		<td></td>
+		<td></td>
+		
+		<td>E_TEXTBOOK_PRICE<br/>
+			$158.49<br/>
+			Save $117.60 (49%)<br/>
+			FREE Shipping on $25+<br/>
+			Ships Today!<br/><hr/>
+			30-Day Returns<br/><hr/>
+			Condition: Very Good<br/>
+			<button class="button button4">ADD</button>
+		</td>
+		
+	</tr>
+	
+	</table>
+</center>	
+			
+			
+</main>
+
+
+		<footer class="footer-distributed">
+
+			<div class="footer-left">
+
+				<h3>Company<span>logo</span></h3>
+
+				<p class="footer-links">
+					<a href="#">Home</a>
+					·
+					<a href="#">Blog</a>
+					·
+					<a href="#">Pricing</a>
+					·
+					<a href="#">About</a>
+					·
+					<a href="#">Faq</a>
+					·
+					<a href="#">Contact</a>
+				</p>
+
+				<p class="footer-company-name">Company Name &copy; 2015</p>
+			</div>
+
+			<div class="footer-center">
+
+				<div>
+					<i class="fa fa-map-marker"></i>
+					<p><span>21 Revolution Street</span> Paris, France</p>
+				</div>
+
+				<div>
+					<i class="fa fa-phone"></i>
+					<p>+1 555 123456</p>
+				</div>
+
+				<div>
+					<i class="fa fa-envelope"></i>
+					<p><a href="mailto:support@company.com">support@company.com</a></p>
+				</div>
+
+			</div>
+
+			<div class="footer-right">
+
+				<p class="footer-company-about">
+					<span>About the company</span>
+					Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+				</p>
+
+				<div class="footer-icons">
+
+					<a href="#"><i class="fa fa-facebook"></i></a>
+					<a href="#"><i class="fa fa-twitter"></i></a>
+					<a href="#"><i class="fa fa-linkedin"></i></a>
+					<a href="#"><i class="fa fa-github"></i></a>
+
+				</div>
+
+			</div>
+
+		</footer>
+
+
+<script>
+
+(function() {
+	
+	function Slideshow( element ) {
+		this.el = document.querySelector( element );
+		this.init();
+	}
+	
+	Slideshow.prototype = {
+		init: function() {
+			this.wrapper = this.el.querySelector( ".slider-wrapper" );
+			this.slides = this.el.querySelectorAll( ".slide" );
+			this.previous = this.el.querySelector( ".slider-previous" );
+			this.next = this.el.querySelector( ".slider-next" );
+			this.index = 0;
+			this.total = this.slides.length;
+			this.timer = null;
+			
+			this.action();
+			this.stopStart();	
+		},
+		_slideTo: function( slide ) {
+			var currentSlide = this.slides[slide];
+			currentSlide.style.opacity = 1;
+			
+			for( var i = 0; i < this.slides.length; i++ ) {
+				var slide = this.slides[i];
+				if( slide !== currentSlide ) {
+					slide.style.opacity = 0;
+				}
+			}
+		},
+		action: function() {
+			var self = this;
+			self.timer = setInterval(function() {
+				self.index++;
+				if( self.index == self.slides.length ) {
+					self.index = 0;
+				}
+				self._slideTo( self.index );
+				
+			}, 3000);
+		},
+		stopStart: function() {
+			var self = this;
+			self.el.addEventListener( "mouseover", function() {
+				clearInterval( self.timer );
+				self.timer = null;
+				
+			}, false);
+			self.el.addEventListener( "mouseout", function() {
+				self.action();
+				
+			}, false);
+		}
+		
+		
+	};
+	
+	document.addEventListener( "DOMContentLoaded", function() {
+		
+		var slider = new Slideshow( "#main-slider" );
+		
+	});
+	
+	
+})();
+
+</script>
+
+
+
+</body>
+
+</html>
