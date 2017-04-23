@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<title>CART</title>
+ <link rel="stylesheet" type="text/css" href="css/style.css">
+ 
+	<title>Footer With Address And Phones</title>
+
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	
+
+	
+
+<style>
+
+
+	table {
+    border-collapse:separate;
+    border:solid black 1px;
+    border-radius:6px;
+    -moz-border-radius:6px;
+		}
+
+	th, td {
+    text-align: left;
+    padding: 8px;
+	}
+
+tr:nth-child(even){background-color: 	#FFFFFF}
+
+th {
+    background-color:  #22c3bb;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+</style>
+
+</head>
+
+<body onload="getCartDetails()"> 
+<header>
+<div class="logo">
+
+	
+	<img src="images/logo1.png" height="100" width="274"/>
+</div>
+
+<center>
+			<form class="form-wrapper" id="searchForm" method="POST">
+				<input type="text" id="searchTerm" align="center" placeholder="Search for..." name="searchTerm">
+				<input type="submit" value="go" id="search">
+			</form>
+		</center>
+
+<div class="loginlogo">
+<nav>
+	
+	<a href="cartU.html">	<img src="images/cart.png" height="119px" width="113px"/></a>
+ 	<a href="loginr.html"> <img src="images/logo2.png"/> </a>
+</nav>
+</div>
+
+<center> 
+<div class="menu">
+   <ul class="menu-list">
+       
+	   <li><a href="aboutus.html" class="hyper-link">ABOUT US
+	       <span class="box-animation">
+           <span class="front">ABOUT US</span>
+           <span class="back">ABOUT US</span>
+            </span>
+	   </a></li>
+	   <li><a href="buybook.html" class="hyper-link">BUY BOOKS
+	       <span class="box-animation">
+           <span class="front">BUY BOOKS</span>
+           <span class="back">BUY BOOKS</span>
+            </span>
+	   </a></li><li><a href="sellbook.html" class="hyper-link">SELL BOOKS
+	       <span class="box-animation">
+           <span class="front">SELL BOOKS</span>
+           <span class="back">SELL BOOKS</span>
+            </span>
+	   </a></li>
+     <li><a href="blog.html" class="hyper-link">BLOG
+	       <span class="box-animation">
+           <span class="front">BLOG</span>
+           <span class="back">BLOG</span>
+            </span>
+	   </a></li>
+		</ul>
+</div>
+</center>
+</header>
+
+<img src="images/bar.png" width="1200px" height="70px"/>
+
+<center>
+
+<table id="cartTable" >	
+<colgroup><col width="400" /></colgroup>
+	<tr class="lastRow">
+		<th>ORDERED ITEM</th>
+		<th>ORDERED DATE</th>
+		<th>TOTAL</th>
+		
+		
+		
+	</tr>
+</table>
+
+
+
+</center>
+	
+
+
+<footer class="block">
+
+<div class="footer-social-icons">
+
+    <ul class="social-icons">
+        <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+        <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
+    </ul>
+</div>
+<div class="container">
+    <nav class="blist">
+  <a href="main.html">Home</a>
+  <a href="aboutus.html">About Us </a>
+  <a href="buybook.html">Buy books</a>
+  <a href="sellbook.html">Sell Books</a>
+  <a href="blog.html">Blog</a>
+</nav>
+<br>
+<br>
+<p>© 2006 - 2017 Textbooks.com All rights reserved</p>
+<p>Terms of Service  &nbsp Privacy Policy</p>
+</div>
+		
+</footer>		
+
+
+<script>
+
+(function() {
+	
+	function Slideshow( element ) {
+		this.el = document.querySelector( element );
+		this.init();
+	}
+	
+	Slideshow.prototype = {
+		init: function() {
+			this.slides = this.el.querySelectorAll( ".slide" );
+			this.previous = this.el.querySelector( ".slider-previous" );
+			this.next = this.el.querySelector( ".slider-next" );
+			this.index = 0;
+			this.total = this.slides.length;
+			this.timer = null;
+			
+			this.action();
+			this.stopStart();	
+		},
+		_slideTo: function( slide ) {
+			var currentSlide = this.slides[slide];
+			currentSlide.style.opacity = 1;
+			
+			for( var i = 0; i < this.slides.length; i++ ) {
+				var slide = this.slides[i];
+				if( slide !== currentSlide ) {
+					slide.style.opacity = 0;
+				}
+			}
+		},
+		action: function() {
+			var self = this;
+			self.timer = setInterval(function() {
+				self.index++;
+				if( self.index == self.slides.length ) {
+					self.index = 0;
+				}
+				self._slideTo( self.index );
+				
+			}, 3000);
+		},
+		stopStart: function() {
+			var self = this;
+			self.el.addEventListener( "mouseover", function() {
+				clearInterval( self.timer );
+				self.timer = null;
+				
+			}, false);
+			self.el.addEventListener( "mouseout", function() {
+				self.action();
+				
+			}, false);
+		}
+		
+		
+	};
+	
+	document.addEventListener( "DOMContentLoaded", function() {
+		
+		var slider = new Slideshow( "#main-slider" );
+		
+	});
+	
+	
+})();
+
+</script>
+
+
+
+</body>
+
+</html>

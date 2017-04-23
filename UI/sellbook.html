@@ -122,7 +122,7 @@ a {
 		frm1.submit(function(ev) {
 			$.ajax({
 				type: frm1.attr('method'),
-				url: 'http://localhost:8080/search/getBookBybookName',
+				url: 'http://localhost:8080/search/getBookByBookName',
 				crossDomain: true,
 				data: $('#sellBook').serialize(),
 				success: function(data){ 
@@ -134,7 +134,7 @@ a {
 
 								txt +=  "<tr><td>"
                         +"<h3 align=\"left\">Review Your Search Results</h3>"
-                        +"<p align=\"justify\">Thanks for choosing Textbooks.com! Here are the books you entered. If you bought them from us, <a href=\"loginr.html\">sign in</a> to receive your Guaranteed Cash Back. Now let's review and finalize your buyback quote.</p>"
+                        +"<p align=\"justify\">Thanks for choosing usedbooks4sale.com! Here are the books you entered. If you bought them from us, <a href=\"loginr.html\">sign in</a> to receive your Guaranteed Cash Back. Now let's review and finalize your buyback quote.</p>"
                         +"<form method=\"POST\" action=\"/\" style=\"margin:0;padding:0;\" autocomplete=\"off\">"
                         +"<table>"
                         +"<tr style=\" width: 620px;padding: 10px;border: 5px solid gray;margin: 0;\">"
@@ -143,9 +143,14 @@ a {
                         +'by'+" "+data[i].author+"<br/>"
                         +"ISBN13:"+data[i].iSBN+"<br/><br/>"
                         +"</td></tr>"
-                        +"<tr><td><p>Quote:$"+data[i].rent_PRICE+"</p></td></tr>"
+                        +"<tr><td>"
+                        +"<form>"
+                        +"<input type=\"checkbox\" name=\"vehicle\"> EXCELLENT:$"+data[i].new_PRICE+"<br>"
+                        +"<input type=\"checkbox\" name=\"vehicle\"> GOOD:$"+data[i].used_PRICE+"<br>"
+                        +"<input type=\"checkbox\" name=\"vehicle\"> BAD:$"+data[i].rent_PRICE+"<br>"
+                        +"</td></tr>"
                         +"</table><br/>"
-                        +"<center><button type=\"submit\"><img align=\"right\" src=\"images/isbn_images/sell_book.png\"/></center>"
+                        +"<center><a href=\"sell_chkout.html\"><img align=\"right\" src=\"images/isbn_images/sell_book.png\"/></a></center>"
                         +"</form></div></td>"
                         +"</td>"
                         +"<td></td><td></td>"
