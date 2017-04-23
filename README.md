@@ -1,0 +1,2 @@
+# booktrader
+Trading bools
