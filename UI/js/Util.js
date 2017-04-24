@@ -42,6 +42,8 @@ function showUserName() {
     if (userNameString.length > 6) {
         var userName = userNameString.substring(6,userNameString.length);
         var element = document.getElementById("userWelcome");
+		if (element == null)
+			return;
         element.innerHTML = "Welcome " + userName;
     }
 }

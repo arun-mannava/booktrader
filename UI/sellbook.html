@@ -15,6 +15,7 @@
  
  
  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/Util.js"></script>
 
  
 <style>
@@ -117,6 +118,10 @@ a {
 
  
 	$(document).ready(function() {
+        createCookie();
+		showUserName();
+		var cookies = window.CookieObj;
+
 		var frm1 = $('#sellBook');
 	
 		frm1.submit(function(ev) {
@@ -131,6 +136,8 @@ a {
 						var txt = "";
 						if(len > 0){
 							for(var i=0;i<len;i++){
+
+                                cookies.setCookie("sell-ISBN", data[i].iSBN, 10);
 
 								txt +=  "<tr><td>"
                         +"<h3 align=\"left\">Review Your Search Results</h3>"
@@ -270,7 +277,7 @@ a {
 
 <div class="sbutton">
 <form  id="sellBook" method="POST">
-  	<input type="text" id="searchTer" value="Enter your ISBN" id="input-txt" value="Set Focus" name="searchTerm" OnClick="document.myform2.mytextfield2.focus();" class="active">
+  	<input type="text" id="searchTer" value="Enter your ISBN" id="input-txt" value="Set Focus" name="searchTerm"  class="active">
 	<input type="submit" id="input-btn" value="GO">
 
 </form>
@@ -389,9 +396,7 @@ a {
 	
 })();
 
-document.getElementById('input-btn').addEventListener('click', function () {
-			document.getElementById('input-txt').classList.add('active');
-		});
+
 
 </script>
 

@@ -12,7 +12,51 @@
 
 	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="js/Util.js"></script>
+    <script>
+		function getBookDetails() {
+			createCookie();
+			showUserName();
+			var cookies = window.CookieObj;
+			
+			var iSBN = cookies.getCookie("sell-ISBN");
+            if (iSBN == null) {
+                $("#orders").append("You have no recent orders");
+                return;
+            }
+			$.ajax({
+				type: "GET",
+				url: 'http://localhost:8080/search/getBookByBookName',
+				crossDomain: true,
+				data: "searchTerm="+iSBN,
+				success: function(data){ 
+					if(data){ 	
+						var len = data.length;
+						var txt = "";
+						if(len > 0){
+							for(var i=0;i<len;i++){
 
+								txt += "<tr style=\" width: 620px;padding: 10px;border: 5px solid gray;margin: 0;\">"
+						+"<td><img src=\"images/isbn_images/"+ data[i].iSBN + ".gif\"/></td>"
+						+"<td><a href=\"#\">"+data[i].book_NAME+"</a><br/>"
+						+'by'+" "+data[i].author+"<br/>"
+						+"ISBN13:"+data[i].iSBN+"<br/><br/>"
+						+"</td></tr>"
+
+							}
+							if(txt != ""){
+								$("#table").append(txt).removeClass("hidden");
+								$("#main").addClass("hidden");
+							}
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + textStatus + ': ' + errorThrown);
+				}
+		});
+    }
+    </script>
 <style>
 
 element.style {
@@ -90,7 +134,7 @@ a {
 </style>
 </head>
 
-<body>
+<body onload="getBookDetails()">
 
 <header>
 <div class="logo">
@@ -149,14 +193,18 @@ a {
 <center>
 
 	<div class="inlineblock" style="padding:20px 15px 0 0;">
-	<h4 class="orange reg25px" style="margin:0px 0 30px 0;">Hi, USERNAME. Welcome to your account page! </h4></div>
+	<h4 class="orange reg25px" style="margin:0px 0 30px 0;">Hi, <span id="userWelcome"></span> to your account page! </h4></div>
 	
 	<div class="inlineblock"><a href="#" class="reg12px">Log Out</a></div>
 	
 	<div class="maInfoWrapper">
                                 <div class="maInfoCol">
                                     <h3 class="reg25px" style="padding:0;margin:0;">Orders</h3>
-                                     <div class="reg12px" style="padding:5px 0 0 0;">You have no recent orders</div>
+                                     <div class="reg12px" style="padding:5px 0 0 0;" id="orders">                               
+                                         <table id="table">
+                                         </table>
+                                    </div>
+ 
                                 </div>
                                 <div class="maBtnCol"><img src="images/ma6-btn-orders1.png" width="275" height="51" alt="View All Orders"></div>
                             </div>

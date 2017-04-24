@@ -27,7 +27,7 @@
 		frm1.submit(function(ev) {
 			$.ajax({
 				type: frm1.attr('method'),
-				url: 'http://localhost:8080/search/getBookBybookName',
+				url: 'http://localhost:8080/search/getBookByBookName',
 				crossDomain: true,
 				data: $('#searchForm').serialize(),
 				success: function(data){ 

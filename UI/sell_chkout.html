@@ -17,6 +17,47 @@
 
 	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="js/Util.js"></script>
+	<script>
+		function getBookDetails() {
+			createCookie();
+			showUserName();
+			var cookies = window.CookieObj;
+			
+			var iSBN = cookies.getCookie("sell-ISBN");
+			$.ajax({
+				type: "GET",
+				url: 'http://localhost:8080/search/getBookByBookName',
+				crossDomain: true,
+				data: "searchTerm="+iSBN,
+				success: function(data){ 
+					if(data){ 	
+						var len = data.length;
+						var txt = "";
+						if(len > 0){
+							for(var i=0;i<len;i++){
+
+								txt += "<tr style=\" width: 620px;padding: 10px;border: 5px solid gray;margin: 0;\">"
+						+"<td><img src=\"images/isbn_images/"+ data[i].iSBN + ".gif\"/></td>"
+						+"<td><a href=\"#\">"+data[i].book_NAME+"</a><br/>"
+						+'by'+" "+data[i].author+"<br/>"
+						+"ISBN13:"+data[i].iSBN+"<br/><br/>"
+						+"</td></tr>"
+
+							}
+							if(txt != ""){
+								$("#table").append(txt).removeClass("hidden");
+								$("#main").addClass("hidden");
+							}
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert('error: ' + textStatus + ': ' + errorThrown);
+				}
+		});
+		}
+	</script>
 	<style>
 			a {
 				text-decoration: none;
@@ -27,7 +68,7 @@
 	
 </head>
 
-<body>
+<body onload="getBookDetails()">
 <header>
 <div class="logo">
 <a href="main.html">
@@ -213,17 +254,8 @@
 			
 			<form method="POST" action="/" style="margin:0;padding:0;" autocomplete="off">
 			
-			<table>
-				<tr style=" width: 620px;padding: 10px;border: 5px solid gray;margin: 0;">
-				<td><img src="images\isbn_images\978-1111840624.gif"/></td>
-				<td><a href="#">Professional Android Programming with Mono for Android and . NET/C#</a><br/>
-				by Wallace B. McClure<br/>
-				Cover Type: Paperback<br/>
-				ISBN13: 978-1118026434<br/>
-				ISBN10: 1118026438<br/>
-				<br/>
-				</td>
-			</tr>
+			<table id="table">
+				
 			
 			</table>
 
